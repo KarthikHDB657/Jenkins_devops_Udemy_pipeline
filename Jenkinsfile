@@ -8,13 +8,11 @@ pipeline {
 	}
 	
 	stages{
-		stage('com'){
-              def mvnHome = tool name: 'Apache Maven 3.6.0', type: 'maven'
-              sh "${mvnHome}/bin/mvn -B -DskipTests clean package"
-        }	
 		stage('Build'){
 			steps{
-				sh "mvn --version"
+				withMaven(maven: 'mvn') {
+                     sh "mvn --version"
+                }  
 				sh "docker version"
 				echo "Build"
 				echo "PATH - $PATH"
@@ -27,20 +25,24 @@ pipeline {
 		}
 		stage('Compile'){
 			steps{
-				sh "mvn clean compile"
+			  withMaven(maven: 'mvn') {
+                   sh "mvn clean compile"
+              }
+				
 			}
 		}
 		stage('Test'){
 			steps{
              echo "Test"
-			 sh "mvn test"
+			 withMaven(maven:'mvn'){sh "mvn test"}
 			}
 			
 		}
 		stage('Integration Test'){
 			steps{
 				echo "Integration Test"
-				sh "mvn failsafe:integration-test failsafe:verify"
+				withMaven(maven:'mvn'){sh "mvn failsafe:integration-test failsafe:verify"}
+				
 			}
 		}
 	}
