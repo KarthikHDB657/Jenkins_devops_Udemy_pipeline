@@ -1,5 +1,8 @@
 pipeline {
 	agent any
+	tools { 
+      maven 'MVN_HOME' 
+    }
 	//agent {docker { image 'node:13.8'}}
 	environment {
 		mavenHome = 'myMaven1047'
@@ -10,10 +13,8 @@ pipeline {
 	stages{
 		stage('Build'){
 			steps{
-				withMaven(maven: 'mvn') {
-                     sh "mvn --version"
-                }  
-				sh "docker version"
+				sh "mvn --version"
+                sh "docker version"
 				echo "Build"
 				echo "PATH - $PATH"
 				echo "BUILD_NUMBER - $env.BUILD_NUMBER"
@@ -25,23 +26,23 @@ pipeline {
 		}
 		stage('Compile'){
 			steps{
-			  withMaven(maven: 'mvn') {
+			  
                    sh "mvn clean compile"
-              }
+              
 				
 			}
 		}
 		stage('Test'){
 			steps{
              echo "Test"
-			 withMaven(maven:'mvn'){sh "mvn test"}
+			sh "mvn test"
 			}
 			
 		}
 		stage('Integration Test'){
 			steps{
 				echo "Integration Test"
-				withMaven(maven:'mvn'){sh "mvn failsafe:integration-test failsafe:verify"}
+				sh "mvn failsafe:integration-test failsafe:verify"
 				
 			}
 		}
