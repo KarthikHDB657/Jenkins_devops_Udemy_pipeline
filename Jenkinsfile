@@ -6,7 +6,12 @@ pipeline {
 		dockerHome = 'MyDocker1047'
 		PATH = "$dockerHome/bin:$mavenHome/bin:$PATH"
 	}
+	
 	stages{
+		stage('com'){
+              def mvnHome = tool name: 'Apache Maven 3.6.0', type: 'maven'
+              sh "${mvnHome}/bin/mvn -B -DskipTests clean package"
+        }	
 		stage('Build'){
 			steps{
 				sh "mvn --version"
