@@ -1,12 +1,9 @@
 pipeline {
 	agent any
-	tools { 
-      maven 'MVN_HOME' 
-    }
 	//agent {docker { image 'node:13.8'}}
 	environment {
-		mavenHome = 'myMaven1047'
 		dockerHome = 'MyDocker1047'
+		mavenHome = 'myMaven1047'
 		PATH = "$dockerHome/bin:$mavenHome/bin:$PATH"
 	}
 	
