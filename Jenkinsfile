@@ -55,12 +55,11 @@ pipeline {
 		stage("Push Docker image"){
 			steps{
 			 script{
-				 dockerImage.withRegistry('',registryCredential){
-				   dockerImage.push();
-				   dockerImage.push('latest');
+				    dockerImage.withRegistry('',registryCredential) {
+				    dockerImage.push();
 				 }
 
-			 }
+			    }
 				
 			}
 		}
