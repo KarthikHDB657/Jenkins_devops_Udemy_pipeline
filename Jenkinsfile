@@ -6,7 +6,7 @@ pipeline {
 		mavenHome = tool 'myMaven1047'
 		PATH = "$dockerHome/bin:$mavenHome/bin:$PATH"
 		registry = "kbhd1047/currency-exchange-devops"
-        registryCredential = ‘dockerhub’
+        registryCredential = 'dockerhub'
 
 	}
 	
