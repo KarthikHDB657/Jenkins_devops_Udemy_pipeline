@@ -5,6 +5,9 @@ pipeline {
 		dockerHome = tool 'MyDocker1047'
 		mavenHome = tool 'myMaven1047'
 		PATH = "$dockerHome/bin:$mavenHome/bin:$PATH"
+		registry = "kbhd1047/currency-exchange-devops"
+        registryCredential = ‘dockerhub’
+
 	}
 	
 	stages{
@@ -36,7 +39,6 @@ pipeline {
 			}
 			
 		}
-		
 		stage('Package'){
 			steps{
 				sh "mvn package -DskipTests"
@@ -53,7 +55,7 @@ pipeline {
 		stage("Push Docker image"){
 			steps{
 			 script{
-				 dockerImage.withRegistry('','dockerhub'){
+				 dockerImage.withRegistry('',registryCredential){
 				   dockerImage.push();
 				   dockerImage.push('latest');
 				 }
