@@ -47,7 +47,7 @@ pipeline {
 		stage("Build docker image"){
 			steps{
 				script{
-					dockerImage = docker.build("in28min/currency-exchange-devops:${env.BUILD_TAG}")
+					dockerImage = docker.build("kbhd1047/hello-world-nodejs:${env.BUILD_TAG}")
 				}
 				
 			}
