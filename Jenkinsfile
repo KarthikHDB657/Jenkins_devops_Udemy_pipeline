@@ -43,6 +43,31 @@ pipeline {
 				
 			}
 		}
+		stage('Package'){
+			steps{
+				sh "mvn package -DskipTests"
+			}
+		}
+		stage("Build docker image"){
+			steps{
+				script{
+					dockerImage = docker.build("in28min/currency-exchange-devops:${env.BUILD_TAG}")
+				}
+				
+			}
+		}
+		stage("Push Docker image"){
+			steps{
+			 script{
+				 dockerImage.withRegistry('','dockerhub'){
+				   dockerImage.push();
+				   dockerImage.push('latest');
+				 }
+
+			 }
+				
+			}
+		}
 	}
 	post {
 		always {
